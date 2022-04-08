@@ -6,12 +6,13 @@
 
 .pagination-container {
     @include center-content();
-    height: 50vh; 
+    height: 50vh;
 }
 
 ul {
     list-style: none;
     display: flex;
+    padding-inline-start: 0px;
 }
 
 li {
@@ -32,4 +33,9 @@ li {
 .active {
     text-decoration: underline;
     color: rgb(51, 141, 168);
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
 }

@@ -12,7 +12,7 @@ import {
   styleUrls: ['./pagination.component.scss']
 })
 export class PaginationComponent implements OnInit {
-  @Input() list!: string[];
+  @Input() items: string[] = [];
 
   @Output() onSelectPage = new EventEmitter<number>();
 
