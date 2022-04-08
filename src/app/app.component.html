@@ -1,0 +1,10 @@
+<main>
+    <div>
+        <ul>
+            <li *ngFor="let item of items">
+                {{ item }}
+            </li>
+        </ul>
+    </div>
+    <app-pagination [list]="items"></app-pagination>
+</main>

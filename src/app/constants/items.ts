@@ -1,0 +1,23 @@
+export const items = [
+    'Predrag',
+    'Lucca',
+    'Lucas',
+    'Armin',
+    'Angela',
+    'Marc',
+    'Anna',
+    'Olaf',
+    'Barbara',
+    'Michael',
+    'Robert',
+    'Joe',
+    'Silvia',
+    'Eko',
+    'Klaus',
+    'Sinisa',
+    'Svetlana',
+    'Erik',
+    'Ursula',
+    'Heidi',
+    'Victor'
+];

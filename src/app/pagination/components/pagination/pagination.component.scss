@@ -1,0 +1,23 @@
+@mixin center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination-container {
+    @include center-content();
+    height: 50vh; 
+}
+
+ul {
+    list-style: none;
+    display: flex;
+
+    li {
+        @include center-content();
+        height: 2rem;
+        width: 2rem;
+        padding: 7px;
+        border: 1px solid blue;
+    }
+}
