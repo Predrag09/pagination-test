@@ -12,12 +12,24 @@
 ul {
     list-style: none;
     display: flex;
+}
 
-    li {
-        @include center-content();
-        height: 2rem;
-        width: 2rem;
-        padding: 7px;
-        border: 1px solid blue;
+li {
+    @include center-content();
+    cursor: pointer;
+    font-size: 1.5vw;
+    padding: 10px;
+    color: white;
+    background-color: black;
+
+    &.carret {
+        padding-bottom: 15px;
+        font-size: 2vw;
+        width: 100% !important;
     }
+}
+
+.active {
+    text-decoration: underline;
+    color: rgb(51, 141, 168);
 }

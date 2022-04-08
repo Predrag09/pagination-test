@@ -16,8 +16,15 @@ export class PaginationComponent implements OnInit {
 
   @Output() onSelectPage = new EventEmitter<number>();
 
+  currentPage = 1;
   readonly itemsPerPage = 2;
+  readonly maxPageSize = 10;
 
   ngOnInit(): void {
+  }
+
+  selectPage(pageNumber: number): void {
+    this.currentPage = pageNumber;
+    this.onSelectPage.emit(pageNumber);
   }
 }
