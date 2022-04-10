@@ -1,8 +1,4 @@
-@mixin center-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+@import "../../../shell/shell.component.scss";
 
 .pagination-container {
     @include center-content();
@@ -13,20 +9,20 @@ ul {
     list-style: none;
     display: flex;
     padding-inline-start: 0px;
-}
 
-li {
-    @include center-content();
-    cursor: pointer;
-    font-size: 1.5vw;
-    padding: 10px;
-    color: white;
-    background-color: black;
+    li {
+        @include center-content();
+        cursor: pointer;
+        font-size: 1.5vw;
+        padding: 10px;
+        color: white;
+        background-color: black;
 
-    &.carret {
-        padding-bottom: 15px;
-        font-size: 2vw;
-        width: 100% !important;
+        &.carret {
+            padding-bottom: 15px;
+            font-size: 2vw;
+            width: 100% !important;
+        }
     }
 }
 

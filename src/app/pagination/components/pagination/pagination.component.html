@@ -7,14 +7,14 @@
                 &#x2039;
             </span>
         </li>
-        <li *ngFor="let item of items; let i = index"
-            (click)="selectPage(i + 1)">
-            <span [ngClass]="{'active': i + 1 === currentPage}">
-                {{ i+ 1}}
+        <li *ngFor="let page of pageNumbers"
+            (click)="selectPage(page)">
+            <span [ngClass]="{'active': page === currentPage}">
+                {{ page }}
             </span>
         </li>
         <li class="carret"
-            [ngClass]="{'disabled': currentPage === items.length}"
+            [ngClass]="{'disabled': currentPage === lastPage}"
             (click)="selectPage(currentPage + 1)">
             <span>
                 &#x203A;
