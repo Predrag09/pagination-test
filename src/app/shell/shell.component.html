@@ -1,0 +1,7 @@
+<main>
+    <app-items [items]="items$ | async"></app-items>
+    <app-pagination [items]="items$ | async"
+                    (onSelectPage)="getItems($event)"
+                    [totalPages]="totalPages">
+    </app-pagination>
+</main>

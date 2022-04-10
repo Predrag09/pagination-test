@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { items } from './constants/items';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,5 +7,4 @@ import { items } from './constants/items';
 })
 export class AppComponent {
   title = 'pagination-test';
-  readonly items = items;
 }

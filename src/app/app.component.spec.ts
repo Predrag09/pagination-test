@@ -1,8 +1,10 @@
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
 import { ItemsComponent } from './items/items.component';
 import { PaginationComponent } from './pagination/components/pagination/pagination.component';
+import { ShellComponent } from './shell/shell.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -10,7 +12,11 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         PaginationComponent,
-        ItemsComponent
+        ItemsComponent,
+        ShellComponent,
+      ],
+      imports: [
+        HttpClientModule
       ],
     }).compileComponents();
   });
