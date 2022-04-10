@@ -1,7 +1,16 @@
+@import "../shell/shell.component.scss";
+
+.container {
+    height: 30vh;
+}
+
 ul {
-    list-style: none;
-    display: flex;
+    @include center-content();
     flex-direction: column;
-    justify-content: center;
+    list-style: none;
     padding-inline-start: 0px;
+
+    li {
+        font-size: 2vh;
+    }
 }
