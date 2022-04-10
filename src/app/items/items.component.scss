@@ -1,7 +1,7 @@
 @import "../shell/shell.component.scss";
 
 .container {
-    height: 30vh;
+    height: $__containerHeight;
 }
 
 ul {
@@ -11,6 +11,6 @@ ul {
     padding-inline-start: 0px;
 
     li {
-        font-size: 2vh;
+        font-size: $__fontSize;
     }
 }

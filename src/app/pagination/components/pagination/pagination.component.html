@@ -3,9 +3,7 @@
         <li class="carret"
             [ngClass]="{'disabled': currentPage === 1}"
             (click)="selectPage(currentPage - 1)">
-            <span>
-                &#x2039;
-            </span>
+            &#x2039;
         </li>
         <li *ngFor="let page of pageNumbers"
             (click)="selectPage(page)">
@@ -16,9 +14,7 @@
         <li class="carret"
             [ngClass]="{'disabled': currentPage === lastPage}"
             (click)="selectPage(currentPage + 1)">
-            <span>
-                &#x203A;
-            </span>
+            &#x203A;
         </li>
     </ul>
 </div>

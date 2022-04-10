@@ -2,7 +2,7 @@
 
 .pagination-container {
     @include center-content();
-    height: 50vh;
+    height: $__containerHeight;
 }
 
 ul {
@@ -13,15 +13,14 @@ ul {
     li {
         @include center-content();
         cursor: pointer;
-        font-size: 1.5vw;
+        font-size: $__fontSize;
         padding: 10px;
         color: white;
         background-color: black;
 
         &.carret {
-            padding-bottom: 15px;
-            font-size: 2vw;
-            width: 100% !important;
+            padding-bottom: 13px;
+            font-size: $__fontSize;
         }
     }
 }
@@ -33,5 +32,5 @@ ul {
 
 .disabled {
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.4;
 }
