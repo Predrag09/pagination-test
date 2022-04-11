@@ -2,7 +2,6 @@
 
 .pagination-container {
     @include center-content();
-    flex-direction: column;
     height: $__containerHeight;
 }
 
@@ -38,7 +37,6 @@ ul {
 
 form {
     @include center-content();
-    flex-direction: column;
 }
 
 label,

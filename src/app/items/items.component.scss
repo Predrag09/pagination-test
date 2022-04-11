@@ -6,7 +6,6 @@
 
 ul {
     @include center-content();
-    flex-direction: column;
     list-style: none;
     padding-inline-start: 0px;
 

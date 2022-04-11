@@ -3,11 +3,11 @@ $__containerHeight: 30vh;
 
 @mixin center-content {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 main {
     @include center-content();
-    flex-direction: column;
 }
