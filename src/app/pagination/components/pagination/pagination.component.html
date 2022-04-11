@@ -17,4 +17,17 @@
             &#x203A;
         </li>
     </ul>
+
+    <form [formGroup]="form"
+          (ngSubmit)="submitForm()">
+        <label for="currentPage">Go to page:</label>
+        <input type="number"
+               name="currentPage"
+               formControlName="currentPage" />
+        <p *ngIf="currentPageControl.invalid"
+           class="error">Invalid page number</p>
+
+        <button type="submit"
+                [disabled]="form.invalid">Submit</button>
+    </form>
 </div>

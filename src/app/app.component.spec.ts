@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { ItemsComponent } from './items/items.component';
@@ -15,9 +16,8 @@ describe('AppComponent', () => {
         ItemsComponent,
         ShellComponent,
       ],
-      imports: [
-        HttpClientModule
-      ],
+      imports: [HttpClientModule],
+      providers: [FormBuilder]
     }).compileComponents();
   });
 

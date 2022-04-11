@@ -2,6 +2,7 @@
 
 .pagination-container {
     @include center-content();
+    flex-direction: column;
     height: $__containerHeight;
 }
 
@@ -33,4 +34,18 @@ ul {
 .disabled {
     pointer-events: none;
     opacity: 0.4;
+}
+
+form {
+    @include center-content();
+    flex-direction: column;
+}
+
+label,
+button {
+    margin-top: 10px;
+}
+
+.error {
+    color: red;
 }

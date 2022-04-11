@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { ItemsComponent } from '../items/items.component';
 import { PaginationComponent } from '../pagination/components/pagination/pagination.component';
@@ -16,7 +17,8 @@ describe('ShellComponent', () => {
         ItemsComponent,
         PaginationComponent,
       ],
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, ReactiveFormsModule],
+      providers: [FormBuilder],
     })
       .compileComponents();
   });
