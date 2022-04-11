@@ -7,6 +7,7 @@ import {
   OnChanges,
   SimpleChanges,
   HostListener,
+  OnDestroy,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -15,14 +16,15 @@ import {
   Validators
 } from '@angular/forms';
 
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss']
 })
-export class PaginationComponent implements OnInit, OnChanges {
+export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
   @Input() items!: any[] | null;
   @Input() totalPages!: number;
 
@@ -37,9 +39,14 @@ export class PaginationComponent implements OnInit, OnChanges {
   private startingPage!: number;
   private innerWidth!: number;
 
-  private readonly initalStartingPage = 1;
+  private readonly initialStartingPage = 1;
   private readonly maxDesktopPages = 10;
+  private readonly desktopChangeTriggerPage = 5;
   private readonly maxMobilePages = 7;
+  private readonly mobileChangeTriggerPage = 4;
+  private readonly breakpoint = 568;
+
+  private destroy$ = new Subject<boolean>();
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -55,7 +62,7 @@ export class PaginationComponent implements OnInit, OnChanges {
       this.generatePageNumbers();
     }
 
-    if (changes.totalPages && this.totalPages) {
+    if (changes.totalPages && this.totalPages && this.form) {
       this.setValidatorsForCurrentPage();
       this.setValidatorsAndValueForTotalPages();
     }
@@ -81,20 +88,30 @@ export class PaginationComponent implements OnInit, OnChanges {
     return this.form.controls.totalPages;
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   @HostListener('window:resize')
   private onWindowResize() {
     this.innerWidth = window.innerWidth;
 
-    if (this.innerWidth < 568) {
-      this.calculateStartingAndLastPage(this.maxMobilePages, 4);
-      this.generatePageNumbers();
-    } else {
-      this.calculateStartingAndLastPage(this.maxDesktopPages, 5);
-      this.generatePageNumbers();
-    }
+    this.innerWidth < this.breakpoint
+      ? this.calculateStartingAndLastPage(this.maxMobilePages, this.mobileChangeTriggerPage)
+      : this.calculateStartingAndLastPage(this.maxDesktopPages, this.desktopChangeTriggerPage);
+
+    this.generatePageNumbers();
   }
 
   private calculateStartingAndLastPage(maxPages: number, changeTriggerPage: number): void {
+    if (this.totalPages < this.maxDesktopPages) {
+      this.startingPage = 1;
+      this.lastPage = this.totalPages;
+
+      return;
+    }
+
     if (this.currentPage > changeTriggerPage && this.currentPage < this.totalPages - changeTriggerPage + 1) {
       this.startingPage = this.currentPage - changeTriggerPage + 1;
       this.lastPage = this.currentPage + maxPages - changeTriggerPage;
@@ -109,7 +126,7 @@ export class PaginationComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.startingPage = this.initalStartingPage;
+    this.startingPage = this.initialStartingPage;
     this.lastPage = this.startingPage + maxPages - 1;
   }
 
@@ -128,6 +145,7 @@ export class PaginationComponent implements OnInit, OnChanges {
         Validators.min(1),
         Validators.required
       ]);
+
     this.currentPageControl.updateValueAndValidity();
   }
 
@@ -135,17 +153,18 @@ export class PaginationComponent implements OnInit, OnChanges {
     this.totalPagesControl.setValidators(
       [
         Validators.max(this.totalPages),
-        Validators.min(this.maxDesktopPages),
+        Validators.min(1),
         Validators.required
       ]
     );
+
     this.totalPagesControl.setValue(this.totalPages);
     this.totalPagesControl.updateValueAndValidity();
   }
 
   private initializeForm(): void {
     this.form = this.formBuilder.group({
-      currentPage: this.initalStartingPage,
+      currentPage: this.initialStartingPage,
       totalPages: null,
     });
   }
@@ -154,6 +173,7 @@ export class PaginationComponent implements OnInit, OnChanges {
     if (this.form) {
       this.totalPagesControl.valueChanges
         .pipe(
+          takeUntil(this.destroy$),
           debounceTime(500),
           distinctUntilChanged(),
         ).subscribe(() => {
