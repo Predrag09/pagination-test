@@ -1,3 +1,4 @@
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -6,6 +7,8 @@ import { PaginationComponent } from './pagination.component';
 describe('PaginationComponent', () => {
   let component: PaginationComponent;
   let fixture: ComponentFixture<PaginationComponent>;
+  let debugElement: DebugElement;
+  let componentElement: HTMLElement;
 
   const testNumber = 5;
 
@@ -20,6 +23,10 @@ describe('PaginationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PaginationComponent);
     component = fixture.componentInstance;
+
+    debugElement = fixture.debugElement;
+    componentElement = debugElement.nativeElement;
+
     fixture.detectChanges();
   });
 
@@ -86,6 +93,51 @@ describe('PaginationComponent', () => {
       component['onWindowResize']();
 
       expect(component['innerWidth']).toEqual(window.innerWidth);
+    });
+  })
+
+  describe('calculateStartingAndLastPage and generatePageNumbers', () => {
+    it('should display pages for mobile', () => {
+      component['calculateStartingAndLastPage'](
+        component['maxMobilePages'],
+        component['mobileChangeTriggerPage'],
+      );
+      component['generatePageNumbers']();
+
+      expect(component['pageNumbers']).toEqual(
+        [1, 2, 3, 4, 5, 6, 7]
+      );
+    });
+
+    it('should display pages for larger screens', () => {
+      component['calculateStartingAndLastPage'](
+        component['maxDesktopPages'],
+        component['desktopChangeTriggerPage'],
+      );
+      component['generatePageNumbers']();
+
+      expect(component['pageNumbers']).toEqual(
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      );
+    });
+  })
+
+  describe('carret', () => {
+    it('should carret for going to previous page be disabled initially', () => {
+      const carret = componentElement.querySelector('.carret');
+
+      expect(carret).toHaveClass('disabled');
+    });
+
+    it('should carret for going to next page be disabled if currentPage has same value as lastPage', () => {
+      const carret = componentElement.querySelector('.carret:nth-child(2)');
+
+      component.currentPage = 10;
+      component.lastPage = 10;
+
+      fixture.detectChanges();
+
+      expect(carret).toHaveClass('disabled');
     });
   })
 });
