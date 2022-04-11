@@ -27,19 +27,65 @@ describe('PaginationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit an event when page is selected', () => {
-    spyOn(component.onSelectPage, 'emit');
+  it('should init form and subscribe to value changes of totalPagesControl on init', () => {
+    spyOn<any>(component, 'initializeForm');
+    spyOn<any>(component, 'totalPagesControlValueChanges');
 
-    component.selectPage(testNumber);
+    component.ngOnInit();
 
-    expect(component.onSelectPage.emit).toHaveBeenCalledWith(testNumber);
+    expect(component['initializeForm']).toHaveBeenCalled();
+    expect(component['totalPagesControlValueChanges']).toHaveBeenCalled();
   });
 
-  it('should call selectPage when form is submitted', () => {
-    spyOn(component, 'selectPage');
+  describe('selectPage', () => {
+    it('should emit an event when page is selected', () => {
+      spyOn(component.onSelectPage, 'emit');
 
-    component.submitForm();
+      component.selectPage(testNumber);
 
-    expect(component.selectPage).toHaveBeenCalled();
+      expect(component.onSelectPage.emit).toHaveBeenCalledWith(testNumber);
+    });
+
+    it('should set currentPage property when page is selected', () => {
+      component.selectPage(testNumber);
+
+      expect(component.currentPage).toEqual(testNumber);
+    });
   });
+
+  describe('submitForm', () => {
+    it('should call selectPage and setValidatorsForCurrentPage methods when form is submitted', () => {
+      spyOn(component, 'selectPage');
+      spyOn<any>(component, 'setValidatorsForCurrentPage');
+
+      component.submitForm();
+
+      expect(component.selectPage).toHaveBeenCalled();
+      expect(component['setValidatorsForCurrentPage']).toHaveBeenCalled();
+    });
+
+    it('should set totalPages property when form is submitted', () => {
+      component.submitForm();
+
+      expect(component.totalPages).toEqual(component.totalPagesControl.value);
+    });
+  })
+
+  describe('onWindowResize', () => {
+    it('should call calculateStartingAndLastPage and generatePageNumbers methods upon window resize', () => {
+      spyOn<any>(component, 'calculateStartingAndLastPage');
+      spyOn<any>(component, 'generatePageNumbers');
+
+      component['onWindowResize']();
+
+      expect(component['calculateStartingAndLastPage']).toHaveBeenCalled();
+      expect(component['generatePageNumbers']).toHaveBeenCalled();
+    });
+
+    it('should set innerWidth property depending on window width upon window resize', () => {
+      component['onWindowResize']();
+
+      expect(component['innerWidth']).toEqual(window.innerWidth);
+    });
+  })
 });
