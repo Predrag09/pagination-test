@@ -15,6 +15,8 @@ import {
   Validators
 } from '@angular/forms';
 
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
@@ -44,6 +46,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
     this.initializeForm();
+    this.totalPagesControlValueChanges();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -54,6 +57,7 @@ export class PaginationComponent implements OnInit, OnChanges {
 
     if (changes.totalPages && this.totalPages) {
       this.setValidatorsForCurrentPage();
+      this.setValidatorsAndValueForTotalPages();
     }
   }
 
@@ -64,10 +68,17 @@ export class PaginationComponent implements OnInit, OnChanges {
 
   submitForm(): void {
     this.selectPage(this.currentPageControl.value);
+    this.totalPages = this.totalPagesControl.value;
+
+    this.setValidatorsForCurrentPage();
   }
 
   get currentPageControl(): AbstractControl {
     return this.form.controls.currentPage;
+  }
+
+  get totalPagesControl(): AbstractControl {
+    return this.form.controls.totalPages;
   }
 
   @HostListener('window:resize')
@@ -113,16 +124,41 @@ export class PaginationComponent implements OnInit, OnChanges {
   private setValidatorsForCurrentPage(): void {
     this.currentPageControl.setValidators(
       [
-        Validators.max(this.totalPages),
+        Validators.max(this.totalPagesControl.value),
         Validators.min(1),
         Validators.required
       ]);
     this.currentPageControl.updateValueAndValidity();
   }
 
+  private setValidatorsAndValueForTotalPages(): void {
+    this.totalPagesControl.setValidators(
+      [
+        Validators.max(this.totalPages),
+        Validators.min(this.maxDesktopPages),
+        Validators.required
+      ]
+    );
+    this.totalPagesControl.setValue(this.totalPages);
+    this.totalPagesControl.updateValueAndValidity();
+  }
+
   private initializeForm(): void {
     this.form = this.formBuilder.group({
       currentPage: this.initalStartingPage,
+      totalPages: null,
     });
+  }
+
+  private totalPagesControlValueChanges(): void {
+    if (this.form) {
+      this.totalPagesControl.valueChanges
+        .pipe(
+          debounceTime(500),
+          distinctUntilChanged(),
+        ).subscribe(() => {
+          this.setValidatorsForCurrentPage();
+        });
+    }
   }
 }

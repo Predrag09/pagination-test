@@ -25,7 +25,14 @@
                name="currentPage"
                formControlName="currentPage" />
         <p *ngIf="currentPageControl.invalid"
-           class="error">Invalid page number</p>
+           class="error">Value must be between 1 and number of total pages!</p>
+
+        <label for="totalPages">Total pages:</label>
+        <input type="number"
+               name="totalPages"
+               formControlName="totalPages" />
+        <p *ngIf="totalPagesControl.invalid"
+           class="error">Value must be between 10 and number of total pages!</p>
 
         <button type="submit"
                 [disabled]="form.invalid">Submit</button>
