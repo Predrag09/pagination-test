@@ -36,6 +36,8 @@ export class PaginationComponent implements OnInit, OnChanges, OnDestroy {
   currentPage = 1;
   lastPage!: number;
 
+  readonly errorMessage = 'Value must be between 1 and number of total pages!';
+
   private startingPage!: number;
   private innerWidth!: number;
 
