@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
+import { Item } from '../interfaces/item';
 import { ItemsService } from '../services/items.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { ItemsService } from '../services/items.service';
   styleUrls: ['./shell.component.scss'],
 })
 export class ShellComponent implements OnInit {
-  items$!: Observable<any[]>;
+  items$!: Observable<Item[]>;
   totalPages!: number;
 
   private readonly initialStartingPage = 1;
