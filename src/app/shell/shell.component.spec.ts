@@ -10,6 +10,8 @@ describe('ShellComponent', () => {
   let component: ShellComponent;
   let fixture: ComponentFixture<ShellComponent>;
 
+  const initialStartingPage = 1;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
@@ -31,5 +33,13 @@ describe('ShellComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should get items on init', () => {
+    spyOn(component, 'getItems');
+
+    component.ngOnInit();
+
+    expect(component.getItems).toHaveBeenCalledOnceWith(initialStartingPage);
   });
 });
